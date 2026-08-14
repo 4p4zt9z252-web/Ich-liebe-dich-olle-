@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mein Standort</title>
+</head>
+<body>
+  <h1>Standortfreigabe</h1>
+  <p>Tippe auf den Button, um deinen Standort freizugeben.</p>
+
+  <button onclick="standortAbrufen()">Standort freigeben</button>
+
+  <p id="status"></p>
+
+  <script>
+    function standortAbrufen() {
+      const status = document.getElementById("status");
+
+      if (!navigator.geolocation) {
+        status.textContent = "Standortermittlung wird nicht unterstützt.";
+        return;
+      }
+
+      status.textContent = "Standort wird ermittelt...";
+
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+
+          status.innerHTML =
+            "Breitengrad: " + lat +
+            "<br>Längengrad: " + lon +
+            "<br><a href='https://www.openstreetmap.org/?mlat=" +
+            lat + "&mlon=" + lon +
+            "#map=16/" + lat + "/" + lon +
+            "' target='_blank'>Auf Karte anzeigen</a>";
+        },
+        function() {
+          status.textContent = "Standortfreigabe wurde nicht erteilt.";
+        }
+      );
+    }
+  </script>
+</body>
+</html>
